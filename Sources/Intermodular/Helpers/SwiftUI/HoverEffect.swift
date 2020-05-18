@@ -51,7 +51,22 @@ extension View {
     ///
     /// - Note: the system may fall-back to a more appropriate effect.
     public func hoverEffect(_ effect: HoverEffect) -> some View {
-        hoverEffect(SwiftUI.HoverEffect(effect))
+        // hoverEffect(SwiftUI.HoverEffect(effect))
+
+        if ProcessInfo().isOperatingSystemAtLeast(OperatingSystemVersion(majorVersion: 13, minorVersion: 4, patchVersion: 0)) {
+            print("13.4+")
+
+            if #available(iOS 13.4, *) {
+                return AnyView(hoverEffect(SwiftUI.HoverEffect(effect)))
+            }
+            else {
+                return AnyView(self)
+            }
+        }
+        else {
+            print("<13.4")
+            return AnyView(self)
+        }
     }
 }
 
